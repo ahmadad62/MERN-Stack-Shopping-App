@@ -62,7 +62,7 @@ const ProductList = () => {
     <Container>
       <Navbar />
       <Announcement />
-      <Title>Dresses</Title>
+      <Title>{cat}</Title>
       {/* add filter filed to select exact products.*/}
       <FilterContainer>
         <Filter>
@@ -77,6 +77,7 @@ const ProductList = () => {
             <Option>Blue</Option>
             <Option>Yellow</Option>
             <Option>Green</Option>
+            <Option>Purple</Option>
           </Select>
           <Select name="size" onChange={handleFilters}>
             <Option disabled>
@@ -98,7 +99,7 @@ const ProductList = () => {
           </Select>
         </Filter>
       </FilterContainer>
-      {/* add components */}
+      {/* add components / in products was passed category filters sort */}
       <Products cat={cat} filters={filters} sort={sort} />
       <Newsletter />
       <Footer />
