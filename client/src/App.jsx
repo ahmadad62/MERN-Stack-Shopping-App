@@ -7,12 +7,15 @@ import Cart from "./pages/Cart";
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import Success from "./pages/Success";
+import { useSelector } from "react-redux";
 
 
 const history = createBrowserHistory();
 
 function App() {
-  const user=true;
+  // const user=false;
+  const user = useSelector(state => state.user.currentUser)
+
   return (
     <Router history={history}>
       <Switch>
