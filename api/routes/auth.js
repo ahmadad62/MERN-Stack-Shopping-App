@@ -30,20 +30,62 @@ router.post('/register', async (req, res) => {
 
 //LOGIN
 
+// router.post("/login", async (req, res) => {
+//     try {
+//         const user = await User.findOne({ username: req.body.username }) //find in db
+//         !user && res.status(401).json('Wrong credentials!')
+//         const hashedPassword = CryptoJS.AES.decrypt(
+//             user.password,
+//             process.env.PASS_SEC
+//         );
+
+//         let originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+
+//         originalPassword !== req.body.password &&
+//             res.status(401).json('Wrong credentials!')  //if the password is incorrect
+//         // create an access token and sent to client to authentication and authorization
+//         const accessToken = jwt.sign({
+//             id: user._id,
+//             isAdmin: user.isAdmin,
+//         },
+//             process.env.JWT_SEC,
+//             { expiresIn: "3d" }
+//         );
+
+//         const { password, ...others } = user._doc  // to filter out password and send just user information
+
+//         res.status(200).json({ ...others, accessToken }) //if ok, return the user
+//     } catch (err) {
+//         res.status(500).json(err)
+//     }
+// })
+// module.exports = router;
+
+
+//when send wrong password or username with following code server work correctly whiteout brake
 router.post("/login", async (req, res) => {
     try {
         const user = await User.findOne({ username: req.body.username }) //find in db
-        !user && res.status(401).json('Wrong credentials!')
-        const hashedPassword = CryptoJS.AES.decrypt(
-            user.password,
-            process.env.PASS_SEC
-        );
+        if (!user) {
+            return res.status(401).json('Wrong credentials!')
+        }
+        let originalPassword = '';
+        try {
+            const hashedPassword = CryptoJS.AES.decrypt(
+                user.password,
+                process.env.PASS_SEC
+            );
+            originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+        } catch (e) {
+            console.log(e);
+            return res.status(401).json('Wrong credentials!')
+        }
 
-        const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+        if (originalPassword !== req.body.password) {
+            return res.status(401).json('Wrong credentials!')
+        }
 
-        originalPassword !== req.body.password &&
-            res.status(401).json('Wrong credentials!')  //if the password is incorrect
-        // create an access token and sent to client to authentication and authorization
+        // create an access token and send to client for authentication and authorization
         const accessToken = jwt.sign({
             id: user._id,
             isAdmin: user.isAdmin,
