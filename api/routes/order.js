@@ -3,7 +3,7 @@ const router = require('express').Router();
 const Order = require("../models/Order");
 
 
-//CREATE Cart
+//CREATE Order
 
 router.post('/', verifyToken, async (req, res) => {
     const newOrder = new Order(req.body)
@@ -49,7 +49,7 @@ router.delete('/:id', verifyTokenAndAdmin, async (req, res) => {
 //GET USER ORDERS
 router.get('/find/:userId', verifyTokenAndAuthorization, async (req, res) => {
     try {
-        const orders = await Cart.find({ userId: req.params.userId }) //users can have multiple orders
+        const orders = await Order.find({ userId: req.params.userId }) //users can have multiple orders
         res.status(200).json(orders)
 
     } catch (err) {
@@ -62,7 +62,7 @@ router.get('/find/:userId', verifyTokenAndAuthorization, async (req, res) => {
 
 router.get('/', verifyTokenAndAdmin, async (req, res) => {
     try {
-        const orders = await Cart.find()
+        const orders = await Order.find()
         res.status(200).json(orders)
     } catch (error) {
         res.status(500).json(error)
@@ -72,13 +72,20 @@ router.get('/', verifyTokenAndAdmin, async (req, res) => {
 // GET MONTHLY INCOME
 
 router.get("/income", verifyTokenAndAdmin, async (req, res) => {
+    const productId = req.query.pid;
     const date = new Date();
     const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
     const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
 
     try {
         const income = await Order.aggregate([
-            { $match: { createdAt: { $gte: previousMonth } } },
+            {
+                $match: {
+                    createdAt: { $gte: previousMonth }, ...Order(productId && {
+                        products: { $eleMatch: { productId } }
+                    })
+                }
+            },
             {
                 $project: {
                     month: { $month: "$createdAt" },
