@@ -1,5 +1,5 @@
 import { loginFailure, loginStart, loginSuccess } from "./userRedux";
-import { publicRequest } from "../requestMethods";
+import { publicRequest, userRequest } from "../requestMethods";
 import {
     getProductFailure,
     getProductStart,
@@ -56,12 +56,13 @@ export const updateProducts = async (id, product, dispatch) => {
     }
 }
 
-export const addProducts = async (product, dispatch) => {
+
+export const addProduct = async (product, dispatch) => {
     dispatch(addProductStart());
     try {
-        const res = await publicRequest.post(`/products`, { product }); // to activate delete should send this id to db to delete product
-        dispatch(addProductSuccess(res.date));
-    } catch (error) {
-        dispatch(addProductFailure(error));
+        const res = await userRequest.post(`/products`, product);
+        dispatch(addProductSuccess(res.data));
+    } catch (err) {
+        dispatch(addProductFailure());
     }
-}
+};

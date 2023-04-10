@@ -73,6 +73,7 @@ router.get('/', verifyTokenAndAdmin, async (req, res) => {
 
 router.get("/income", verifyTokenAndAdmin, async (req, res) => {
     const productId = req.query.pid;
+
     const date = new Date();
     const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
     const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
@@ -81,8 +82,9 @@ router.get("/income", verifyTokenAndAdmin, async (req, res) => {
         const income = await Order.aggregate([
             {
                 $match: {
-                    createdAt: { $gte: previousMonth }, ...Order(productId && {
-                        products: { $eleMatch: { productId } }
+                    createdAt: { $gte: previousMonth },
+                    ...(productId && {
+                        products: { $elemMatch: { productId: productId } }
                     })
                 }
             },
@@ -99,9 +101,9 @@ router.get("/income", verifyTokenAndAdmin, async (req, res) => {
                 },
             },
         ]);
-        if (income.length === 0) {
-            return res.status(404).json({ message: "No income data found" });
-        }
+        // if (income.length === 0) {
+        //     return res.status(404).json({ message: "No income data found" });
+        // }
         res.status(200).json(income);
     } catch (err) {
         console.error(err);

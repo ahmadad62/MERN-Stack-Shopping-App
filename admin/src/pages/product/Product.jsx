@@ -11,6 +11,7 @@ export default function Product() {
   const location = useLocation();
   const productId = location.pathname.split("/")[2];
   const [pStats, setPStats] = useState([]);
+console.log('productId',productId);
 
   const product = useSelector((state) =>
     state.product.products.find((product) => product._id === productId)
@@ -91,11 +92,11 @@ export default function Product() {
         <form className="productForm">
           <div className="productFormLeft">
             <label>Product Name</label>
-            <input type="text" placeholder={product.title} />
+            <input name="title" type="text" placeholder={product.title} />
             <label>Product Description</label>
-            <input type="text" placeholder={product.desc} />
+            <input name="desc" type="text" placeholder={product.desc} />
             <label>Price</label>
-            <input type="text" placeholder={product.price} />
+            <input name="price" type="text" placeholder={product.price} />
             <label>In Stock</label>
             <select name="inStock" id="idStock">
               <option value="true">Yes</option>
@@ -117,3 +118,4 @@ export default function Product() {
     </div>
   );
 }
+

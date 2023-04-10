@@ -7,7 +7,7 @@ import { mobile } from "../responsive";
 import { useSelector } from "react-redux";
 import StripeCheckout from "react-stripe-checkout"
 import { useEffect, useState } from "react";
-import { userRequest } from "../requestMethods";
+import { userRequest,publicRequest } from "../requestMethods";
 import { useHistory } from "react-router-dom";
 
 const KEY = process.env.REACT_APP_STRIPE;
@@ -166,6 +166,7 @@ const Cart = () => {
   const history=useHistory()
 
 
+
   const onToken = (token) => {
     setStripeToken(token)
   }
@@ -177,6 +178,15 @@ const Cart = () => {
           tokenId:stripeToken.id,
           amount: cart.total*100,
         })
+
+        const paymentId = res.data.id;
+
+        // Create an order on the backend with the cart data and payment ID
+        // await publicRequest.post("/orders", {
+        //   cart,
+        //   paymentId
+        // })
+
         history.push("/success",{data:res.data,products: cart})
       } catch (e) {
         console.log(e);
@@ -184,7 +194,7 @@ const Cart = () => {
       }
     }
     stripeToken && makeRequest()
-  }, [stripeToken,cart.total,history])
+  }, [stripeToken,cart,history])
 
   return (
     <Container>
