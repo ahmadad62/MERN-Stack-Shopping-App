@@ -15,6 +15,35 @@ The application consists of three main parts:
     
 
 The images of the products are stored in Firebase, and the application connects to it to retrieve the images.
+```
+                            +----------+       +-------------+       +--------------+
+                            |   API    |------>|   MongoDB   |<------|   Firebase   |
+                            +----------+       +-------------+       +--------------+
+                                 ^                    |                     ^
+                                 |                    |                     |
+                                 |                    |                     |
+                                 |                    |                     |
+                                 |                    |                     |
++--------+        +----------+   |   +------------+  |  +------------+   |   +--------+
+| Client |<------>|   API    |<--+-->| Stripe API |<-+->|  Admin UI  |<--+-->| Server |
++--------+        +----------+       +------------+    +------------+       +--------+
+```
+
+
+In this block diagram, there are five main components:
+
+1.  `Client`: The client-side part of the application built with React. It communicates with the API to perform actions such as adding products to the cart and making payments.
+    
+2.  `API`: The server-side part of the application built with Node.js and Express. It handles all the requests from the client-side and communicates with MongoDB and Firebase to retrieve and store data.
+    
+3.  `MongoDB`: The database used to store the products, users, and orders.
+    
+4.  `Firebase`: The storage used to store the images of the products.
+    
+5.  `Admin UI`: The dashboard for the admin to manage the products and orders. It communicates with the API to perform actions such as adding and removing products, and viewing all the operations performed in the application.
+    
+
+Note that the API also communicates with the Stripe API to process payments.
 
 License
 -------
