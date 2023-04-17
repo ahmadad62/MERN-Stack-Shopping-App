@@ -1,3 +1,4 @@
+# API Server
 This is a Node.js server setup using Express and Mongoose to connect to a MongoDB database. The server has routes for handling user authentication, product management, cart management, order management, and Stripe checkout.
 
 Here's a breakdown of the code:
