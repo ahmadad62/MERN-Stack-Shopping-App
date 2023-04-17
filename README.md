@@ -4,7 +4,7 @@ Full Stack E-commerce Application
 ======================
 
 This is an E-commerce application built with Node.js, Express, and MongoDB on the server-side, and React on the client-side. The application allows users to shop online, add products to their cart, and pay using the Stripe payment gateway.
-
+![Outline](./Outline.png)
 The application consists of three main parts:
 
 1.  `api`: This is the server-side part of the application built with Node.js and Express. It connects to MongoDB using Mongoose, and handles all the requests from the client-side.
