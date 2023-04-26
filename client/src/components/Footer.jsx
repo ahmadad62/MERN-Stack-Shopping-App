@@ -9,6 +9,8 @@ import {
 } from "@material-ui/icons";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import stripePayment from "../asset/stripe-payment.png";
+
 
 const Container = styled.div`
   display: flex;
@@ -81,18 +83,19 @@ const ContactItem = styled.div`
 `;
 
 const Payment = styled.img`
-    width: 50%;
+     width: 50%;
 `;
 
 const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>LAMA.</Logo>
+        <Logo>Chic Charms</Logo>
         <Desc>
-          There are many variations of passages of Lorem Ipsum available, but
-          the majority have suffered alteration in some form, by injected
-          humour, or randomised words which don’t look even slightly believable.
+        Enhance your look with the elegance and glamour of our jewelry and
+        accessories. From intricate designs to modern simplicity, we offer
+        a wide range of high-quality products that will complement any style.
+        Shop with us and discover the perfect addition to your wardrobe at Chic Charms.
         </Desc>
         <SocialContainer>
           <SocialIcon color="3B5999">
@@ -127,15 +130,16 @@ const Footer = () => {
       <Right>
         <Title>Contact</Title>
         <ContactItem>
-          <Room style={{marginRight:"10px"}}/> 622 Dixie Path , South Tobinchester 98336
+          <Room style={{marginRight:"10px"}}/> Hamburg, Germany
         </ContactItem>
         <ContactItem>
-          <Phone style={{marginRight:"10px"}}/> +1 234 56 78
+          <Phone style={{marginRight:"10px"}}/> +49 157 345 16941
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{marginRight:"10px"}} /> contact@lama.dev
+          <MailOutline style={{marginRight:"10px"}} /> info@aitsonline.de
         </ContactItem>
-        <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
+        <Payment src={stripePayment} />
+        
       </Right>
     </Container>
   );
